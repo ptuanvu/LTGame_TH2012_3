@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chapter02_CreativeMenu", "Chapter02_CreativeMenu\Chapter02_CreativeMenu\Chapter02_CreativeMenu.csproj", "{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Chapter02_CreativeMenuContent", "Chapter02_CreativeMenu\Chapter02_CreativeMenuContent\Chapter02_CreativeMenuContent.contentproj", "{282A6107-7E6E-4F1D-A483-A705DFAF9822}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}.Debug|x86.ActiveCfg = Debug|x86
+		{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}.Debug|x86.Build.0 = Debug|x86
+		{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}.Release|x86.ActiveCfg = Release|x86
+		{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}.Release|x86.Build.0 = Release|x86
+		{282A6107-7E6E-4F1D-A483-A705DFAF9822}.Debug|x86.ActiveCfg = Debug|x86
+		{282A6107-7E6E-4F1D-A483-A705DFAF9822}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
