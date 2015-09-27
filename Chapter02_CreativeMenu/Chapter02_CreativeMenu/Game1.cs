@@ -14,16 +14,17 @@ namespace Chapter02_CreativeMenu
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-
+        private static int GAME_MENU = 0;
         private static int GAME_PAUSE = 1;
         private static int GAME_START = 2;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MouseState previousMouseState;
-        private int gameState = GAME_PAUSE;
+        private int gameState = GAME_MENU;
 
         List<GameObject> gameObjects;
 
@@ -75,6 +76,10 @@ namespace Chapter02_CreativeMenu
             menu.MenuItems.Add(exitGame);
 
             gameObjects.Add(menu);
+
+            Ship ship = CreateShipObject(null);
+            ship.SetPosition(new Vector2(200, 200));
+            gameObjects.Add(ship);
         }
 
         private void ExitGame_Click(object sender, MyMenuItemEventArgs e)
@@ -85,11 +90,13 @@ namespace Chapter02_CreativeMenu
         private void PauseGame_Click(object sender, MyMenuItemEventArgs e)
         {
             Window.Title = "The Game Is Paused";
+            gameState = GAME_PAUSE;
         }
 
         private void StartGame_Click(object sender, MyMenuItemEventArgs e)
         {
             Window.Title = "StartGame Is Pressed";
+            gameState = GAME_START;
         }
 
         /// <summary>
@@ -111,6 +118,9 @@ namespace Chapter02_CreativeMenu
                 case "MenuItem":
                     return CreateMenuItemObject(param);
                     break;
+                case "Ship":
+                    return CreateShipObject(param);
+                    break;
                 default:
                     break;
             }
@@ -127,6 +137,13 @@ namespace Chapter02_CreativeMenu
             menu.Size = size;
 
             return menu;
+        }
+
+        private Ship CreateShipObject(object param)
+        {
+            Texture2D ship = Content.Load<Texture2D>(@"Models\\Ship01");
+            Ship result = new Ship(ship);
+            return result;
         }
 
         private MenuItem CreateMenuItemObject(object param)
@@ -180,7 +197,7 @@ namespace Chapter02_CreativeMenu
 
             foreach (GameObject gameObject in gameObjects)
             {
-                if (gameObject.ObjectName() == "Menu")
+                if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                 {
                     ((Menu)gameObject).Update(gameTime, previousMouseState);
                 } else
@@ -188,9 +205,6 @@ namespace Chapter02_CreativeMenu
                     gameObject.Update(gameTime);
                 }
             }
-
-            
-
             base.Update(gameTime);
         }
 
@@ -206,7 +220,10 @@ namespace Chapter02_CreativeMenu
 
             foreach (GameObject gameObject in gameObjects)
             {
-                gameObject.Draw(gameTime, spriteBatch);
+                if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
+                    gameObject.Draw(gameTime, spriteBatch);
+                else if (gameState == GAME_START && gameObject.ObjectName() == "GameObject")
+                    gameObject.Draw(gameTime, spriteBatch);
             }
 
             spriteBatch.End();
