@@ -18,9 +18,23 @@ namespace Chapter02_CreativeMenu
         private Texture2D ship2D;
         private MouseState previousMouseState;
 
+        //Advanced movement
+        private Vector2 spriteOrigin;
+        private float rotation = 0.0f;
+        private int degrees = 0;
+        private Vector2 spriteVelocity;
+
+        private const float tangentialVelocity = 5f;
+        private float friction = 0.1f;
+
         //Click Handler
         public delegate void ClickHandler(object sender, MyMenuItemEventArgs e);
         public event ClickHandler Click;
+
+        //KeyBoard Handler
+        private KeyboardState previousKeyBoardState;
+        private int KeyBoardTimeHold = 0;
+
 
         #region SetAndGet
 
@@ -106,7 +120,9 @@ namespace Chapter02_CreativeMenu
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.ship2D, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
+
+            //spriteBatch.Draw(this.ship2D, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
+            spriteBatch.Draw(ship2D, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), null, color, rotation, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         public override void Update(GameTime gameTime)
@@ -138,7 +154,7 @@ namespace Chapter02_CreativeMenu
 
         private int _down = 0;
         private bool zoom = true;
-        
+
 
         public Ship(Texture2D ship)
         {
@@ -175,5 +191,48 @@ namespace Chapter02_CreativeMenu
             previousMouseState = mouse;
         }
 
+        internal void Update(GameTime gameTime, KeyboardState keyboardState)
+        {
+            position = spriteVelocity + position;
+
+            if (keyboardState.IsKeyDown(Keys.W))
+            {
+                spriteVelocity.X = (float)Math.Sin(rotation) * tangentialVelocity;
+                spriteVelocity.Y = -(float)Math.Cos(rotation) * tangentialVelocity;
+            }
+            else if (spriteVelocity != Vector2.Zero)
+            {
+                float i = spriteVelocity.X;
+                float j = spriteVelocity.Y;
+
+                spriteVelocity.X = i -= friction * i;
+                spriteVelocity.Y = j -= friction * j;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.S))
+            {
+                spriteVelocity.X = (float)Math.Sin(rotation) * tangentialVelocity;
+                spriteVelocity.Y = (float)Math.Cos(rotation) * tangentialVelocity;
+            }
+            else if (spriteVelocity != Vector2.Zero)
+            {
+                float i = spriteVelocity.X;
+                float j = spriteVelocity.Y;
+
+                spriteVelocity.X = i -= friction * i;
+                spriteVelocity.Y = j -= friction * j;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.D))
+            {
+                rotation += 0.1f;
+            }
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                rotation -= 0.1f;
+            }
+
+
+        }
     }
 }

@@ -200,9 +200,9 @@ namespace Chapter02_CreativeMenu
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                 {
                     ((Menu)gameObject).Update(gameTime, previousMouseState);
-                } else
+                } else if (gameState == GAME_START && gameObject.ObjectName() == "GameObject")
                 {
-                    gameObject.Update(gameTime);
+                    ((Ship)gameObject).Update(gameTime, Keyboard.GetState());
                 }
             }
             base.Update(gameTime);
