@@ -35,6 +35,9 @@ namespace Chapter02_CreativeMenu
         private KeyboardState previousKeyBoardState;
         private int KeyBoardTimeHold = 0;
 
+        //Bullets
+        private List<Bullet> bullets;
+        private const int BULLET_SPACES = 2;
 
         #region SetAndGet
 
@@ -120,8 +123,8 @@ namespace Chapter02_CreativeMenu
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            foreach (Bullet bullet in bullets) bullet.Draw(gameTime, spriteBatch);
 
-            //spriteBatch.Draw(this.ship2D, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
             spriteBatch.Draw(ship2D, new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), null, color, rotation, Vector2.Zero, SpriteEffects.None, 0);
         }
 
@@ -162,6 +165,7 @@ namespace Chapter02_CreativeMenu
             this.position = new Vector2(0, 0);
             this.size = new Vector2(50, 100);
             this.color = Color.White;
+            this.bullets = new List<Bullet>();
         }
 
         public void Update(GameTime gameTime, MouseState mouse)
@@ -193,6 +197,8 @@ namespace Chapter02_CreativeMenu
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState)
         {
+            foreach (Bullet bullet in bullets) bullet.Update(gameTime);
+            
             position = spriteVelocity + position;
 
             if (keyboardState.IsKeyDown(Keys.W))
@@ -221,6 +227,22 @@ namespace Chapter02_CreativeMenu
 
                 spriteVelocity.X = i -= friction * i;
                 spriteVelocity.Y = j -= friction * j;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+               
+                Bullet bullet = new Bullet(position, this.rotation, this.color, gameTime);
+
+                if (bullets.Count > 0)
+                {
+                    if (bullets[bullets.Count - 1].IsPosibleToAddNewBullet(gameTime))
+                    {
+                        bullets.Add(bullet);
+                    }
+                    //bullets.Add(bullet);
+                }
+                else bullets.Add(bullet);
             }
 
             if (keyboardState.IsKeyDown(Keys.D))

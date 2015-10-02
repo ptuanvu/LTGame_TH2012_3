@@ -80,6 +80,25 @@ namespace Chapter02_CreativeMenu
             Ship ship = CreateShipObject(null);
             ship.SetPosition(new Vector2(200, 200));
             gameObjects.Add(ship);
+
+            List<Texture2D> bullets = new List<Texture2D>();
+            Texture2D bullet1 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet1");
+            Texture2D bullet2 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet2");
+            Texture2D bullet3 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet3");
+            Texture2D bullet4 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet4");
+            Texture2D bullet5 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet5");
+            Texture2D bullet6 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet6");
+            Texture2D bullet7 = Content.Load<Texture2D>(@"Models\\Bullets\\Bullet7");
+
+            bullets.Add(bullet1);
+            bullets.Add(bullet2);
+            bullets.Add(bullet3);
+            bullets.Add(bullet4);
+            bullets.Add(bullet5);
+            bullets.Add(bullet6);
+            bullets.Add(bullet7);
+
+            Textures.AddBullet(bullets);
         }
 
         private void ExitGame_Click(object sender, MyMenuItemEventArgs e)
