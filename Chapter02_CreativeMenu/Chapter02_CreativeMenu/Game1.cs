@@ -21,6 +21,8 @@ namespace Chapter02_CreativeMenu
         private static int GAME_PAUSE = 1;
         private static int GAME_START = 2;
 
+        Camera camera;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MouseState previousMouseState;
@@ -42,6 +44,8 @@ namespace Chapter02_CreativeMenu
         /// </summary>
         protected override void Initialize()
         {
+            camera = new Camera(GraphicsDevice.Viewport);
+
             gameObjects = new List<GameObject>();
             IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = 1200;
@@ -222,6 +226,7 @@ namespace Chapter02_CreativeMenu
                 } else if (gameState == GAME_START && gameObject.ObjectName() == "GameObject")
                 {
                     ((Ship)gameObject).Update(gameTime, Keyboard.GetState());
+                    camera.Update(gameTime, (Ship)gameObject);
                 }
             }
             base.Update(gameTime);
@@ -234,9 +239,9 @@ namespace Chapter02_CreativeMenu
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-
+            if (gameState == GAME_START)
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+            else spriteBatch.Begin();
             foreach (GameObject gameObject in gameObjects)
             {
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")

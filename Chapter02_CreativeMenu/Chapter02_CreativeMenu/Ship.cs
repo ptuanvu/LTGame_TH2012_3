@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Chapter02_CreativeMenu
 {
-    class Ship : GameObject
+    public class Ship : GameObject
     {
         private Vector2 position;
         private Vector2 size;
