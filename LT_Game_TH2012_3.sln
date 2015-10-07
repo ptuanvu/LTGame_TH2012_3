@@ -5,7 +5,11 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chapter02_CreativeMenu", "Chapter02_CreativeMenu\Chapter02_CreativeMenu\Chapter02_CreativeMenu.csproj", "{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Chapter02_CreativeMenuContent", "Chapter02_CreativeMenu\Chapter02_CreativeMenuContent\Chapter02_CreativeMenuContent.contentproj", "{282A6107-7E6E-4F1D-A483-A705DFAF9822}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chapter02_CreativeMenuContent", "Chapter02_CreativeMenu\Chapter02_CreativeMenuContent\Chapter02_CreativeMenuContent.contentproj", "{282A6107-7E6E-4F1D-A483-A705DFAF9822}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chapter2_CreativeMenu_Release", "Chapter2_CreativeMenu_Release\Chapter2_CreativeMenu_Release\Chapter2_CreativeMenu_Release.csproj", "{6E5BE5EC-CC5B-410F-8CCA-140EEE3AAF1A}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Chapter2_CreativeMenu_ReleaseContent", "Chapter2_CreativeMenu_Release\Chapter2_CreativeMenu_ReleaseContent\Chapter2_CreativeMenu_ReleaseContent.contentproj", "{3B96F803-4234-467D-9BB2-A7AAD789A0EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,12 @@ Global
 		{A73B4501-F7D9-4E97-9D71-E8F0EF3F9138}.Release|x86.Build.0 = Release|x86
 		{282A6107-7E6E-4F1D-A483-A705DFAF9822}.Debug|x86.ActiveCfg = Debug|x86
 		{282A6107-7E6E-4F1D-A483-A705DFAF9822}.Release|x86.ActiveCfg = Release|x86
+		{6E5BE5EC-CC5B-410F-8CCA-140EEE3AAF1A}.Debug|x86.ActiveCfg = Debug|x86
+		{6E5BE5EC-CC5B-410F-8CCA-140EEE3AAF1A}.Debug|x86.Build.0 = Debug|x86
+		{6E5BE5EC-CC5B-410F-8CCA-140EEE3AAF1A}.Release|x86.ActiveCfg = Release|x86
+		{6E5BE5EC-CC5B-410F-8CCA-140EEE3AAF1A}.Release|x86.Build.0 = Release|x86
+		{3B96F803-4234-467D-9BB2-A7AAD789A0EA}.Debug|x86.ActiveCfg = Debug|x86
+		{3B96F803-4234-467D-9BB2-A7AAD789A0EA}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
