@@ -22,6 +22,7 @@ namespace Chapter2_CreativeMenu_Release
         private static int GAME_PAUSE = 1;
         private static int GAME_START = 2;
         private int gameState = GAME_MENU;
+        SpriteFont font;
 
         List<GameObject> gameObjects;
 
@@ -45,6 +46,7 @@ namespace Chapter2_CreativeMenu_Release
             graphics.PreferredBackBufferWidth = 1200;
             graphics.PreferredBackBufferHeight = 700;
             graphics.ApplyChanges();
+            Window.Title = "1212521-PhanTuanVu-SimpleMenu";
             base.Initialize();
         }
 
@@ -61,15 +63,15 @@ namespace Chapter2_CreativeMenu_Release
 
             Menu menu = (Menu)CreateObject("Menu", null);
             MenuItem startGame = (MenuItem)CreateObject("MenuItem", "Start");
-            startGame.SetPosition(new Vector2(100, 100));
+            startGame.SetPosition(new Vector2(400, 200));
             startGame.Click += new MenuItem.ClickHandler(StartGame_Click);
 
             MenuItem pauseGame = (MenuItem)CreateObject("MenuItem", "Pause");
-            pauseGame.SetPosition(new Vector2(100, 200));
+            pauseGame.SetPosition(new Vector2(400, 300));
             pauseGame.Click += new MenuItem.ClickHandler(PauseGame_Click);
 
             MenuItem exitGame = (MenuItem)CreateObject("MenuItem", "Exit");
-            exitGame.SetPosition(new Vector2(100, 300));
+            exitGame.SetPosition(new Vector2(400, 400));
             exitGame.Click += new MenuItem.ClickHandler(ExitGame_Click);
 
             menu.MenuItems.Add(startGame);
@@ -77,6 +79,14 @@ namespace Chapter2_CreativeMenu_Release
             menu.MenuItems.Add(exitGame);
 
             gameObjects.Add(menu);
+
+            font = Content.Load<SpriteFont>("font");
+
+            DisplayMessage messageGameStart = new DisplayMessage("GAMMING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(300, 300), Color.White, font, "Gamming");
+            gameObjects.Add(messageGameStart);
+
+            DisplayMessage messageGameStart2 = new DisplayMessage("PAUSING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(300, 300), Color.White, font, "Pausing");
+            gameObjects.Add(messageGameStart2);
         }
 
         private void ExitGame_Click(object sender, MyMenuItemEventArgs e)
@@ -186,9 +196,19 @@ namespace Chapter2_CreativeMenu_Release
             {
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                 {
+                    Window.Title = "1212521-PhanTuanVu-SimpleMenu";
                     ((Menu)gameObject).Update(gameTime, Mouse.GetState(), Keyboard.GetState());
                 }
-               
+                if (gameState == GAME_START && gameObject.ObjectName() == "Gamming")
+                {
+                    gameObject.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+                }
+
+                if (gameState == GAME_PAUSE && gameObject.ObjectName() == "Pausing")
+                {
+                    gameObject.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+                }
+
             }
 
             base.Update(gameTime);
@@ -209,9 +229,22 @@ namespace Chapter2_CreativeMenu_Release
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                     gameObject.Draw(gameTime, spriteBatch);
                 else if (gameState == GAME_START)
+                {
                     Window.Title = "Game Starting";
+                    if (gameObject.ObjectName() == "Gamming")
+                    {
+                        gameObject.Draw(gameTime, spriteBatch);
+                    }
+                }
+                   
                 else if (gameState == GAME_PAUSE)
-                    Window.Title = "Game Paused";
+                {
+                    Window.Title = "Game Pausing";
+                    if (gameObject.ObjectName() == "Pausing")
+                    {
+                        gameObject.Draw(gameTime, spriteBatch);
+                    }
+                }
             }
 
             spriteBatch.End();
