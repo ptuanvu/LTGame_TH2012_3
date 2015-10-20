@@ -12,7 +12,9 @@ namespace Chapter2_CreativeMenu_Release
         private Color color;
         private Texture2D buttonNormal;
         private Texture2D buttonClicked;
+
         private MouseState previousMouseState;
+
         private bool isMoveIn = false;
         private bool isClicked = false;
 
@@ -96,6 +98,7 @@ namespace Chapter2_CreativeMenu_Release
         }
 
         #endregion
+
         //Click Handler
         public delegate void ClickHandler(object sender, MyMenuItemEventArgs e);
         public event ClickHandler Click;

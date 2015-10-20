@@ -14,6 +14,7 @@ namespace Chapter2_CreativeMenu_Release
         private Vector2 size;
         private List<MenuItem> menuItems;
 
+        #region Setget
         public Vector2 Position
         {
             get
@@ -52,6 +53,8 @@ namespace Chapter2_CreativeMenu_Release
                 menuItems = value;
             }
         }
+
+        #endregion
 
         public Menu()
         {

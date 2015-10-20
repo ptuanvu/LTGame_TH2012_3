@@ -47,8 +47,8 @@ namespace Chapter2_CreativeMenu_Release
             camera = new Camera(GraphicsDevice.Viewport);
             gameObjects = new List<GameObject>();
             IsMouseVisible = true;
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 700;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
             Window.Title = "1212521-PhanTuanVu-SimpleMenu";
             base.Initialize();
@@ -67,15 +67,15 @@ namespace Chapter2_CreativeMenu_Release
 
             Menu menu = (Menu)CreateObject("Menu", null);
             MenuItem startGame = (MenuItem)CreateObject("MenuItem", "Start");
-            startGame.SetPosition(new Vector2(400, 200));
+            startGame.SetPosition(new Vector2(230, 100));
             startGame.Click += new MenuItem.ClickHandler(StartGame_Click);
 
             MenuItem pauseGame = (MenuItem)CreateObject("MenuItem", "Pause");
-            pauseGame.SetPosition(new Vector2(400, 300));
+            pauseGame.SetPosition(new Vector2(230, 200));
             pauseGame.Click += new MenuItem.ClickHandler(PauseGame_Click);
 
             MenuItem exitGame = (MenuItem)CreateObject("MenuItem", "Exit");
-            exitGame.SetPosition(new Vector2(400, 400));
+            exitGame.SetPosition(new Vector2(230, 300));
             exitGame.Click += new MenuItem.ClickHandler(ExitGame_Click);
 
             menu.MenuItems.Add(startGame);
@@ -86,10 +86,10 @@ namespace Chapter2_CreativeMenu_Release
 
             font = Content.Load<SpriteFont>("font");
 
-            DisplayMessage messageGameStart = new DisplayMessage("GAMMING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(300, 300), Color.White, font, "Gamming");
+            DisplayMessage messageGameStart = new DisplayMessage("GAMMING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Gamming");
             gameObjects.Add(messageGameStart);
 
-            DisplayMessage messageGameStart2 = new DisplayMessage("PAUSING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(300, 300), Color.White, font, "Pausing");
+            DisplayMessage messageGameStart2 = new DisplayMessage("PAUSED...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Pausing");
             gameObjects.Add(messageGameStart2);
         }
 
