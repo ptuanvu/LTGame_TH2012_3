@@ -24,6 +24,10 @@ namespace Chapter2_CreativeMenu_Release
         private int gameState = GAME_MENU;
         SpriteFont font;
         TileMap tile;
+        MouseState preState;
+        KeyboardState preKey;
+
+        List<Soldier> sols = new List<Soldier>();
 
         List<GameObject> gameObjects;
         private Camera camera;
@@ -194,14 +198,46 @@ namespace Chapter2_CreativeMenu_Release
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            //Window.Title = Mouse.GetState().ScrollWheelValue.ToString();
-            
+
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)) gameState = GAME_MENU;
 
+           
+
             if (gameState == GAME_START)
-            tile.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
-            if (GLOBAL.selected != null) Window.Title = GLOBAL.selected.TileSet.Name + " - " + GLOBAL.scale.ToString();
+                tile.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+            if (GLOBAL.selected != null) { //Window.Title = GLOBAL.selected.TileSet.Name + " - " + GLOBAL.scale.ToString();
+                if (Mouse.GetState().RightButton == ButtonState.Pressed && preState.RightButton == ButtonState.Released)
+                {
+                    if (sols.Count < 10)
+                    {
+                        Soldier sol1 = new Soldier(GLOBAL.selected);
+                        sols.Add(sol1);
+                    }
+                    else Window.Title = "SO LINH VUOT QUA GIOI HAN";
+                    
+                }
+            }
+
+            foreach(Soldier sol in sols)
+                sol.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Delete) && preKey.IsKeyUp(Keys.Delete))
+            {
+                int solt = 9999;
+                foreach (Soldier sol in sols)
+                    if (sol.Selected)
+                        solt = sols.IndexOf(sol);
+
+                if (solt < 10)
+                    sols.RemoveAt(solt);
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && preKey.IsKeyUp(Keys.Left))
+            {
+                sols.First().ChangeSprite();
+            } 
+
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -223,6 +259,8 @@ namespace Chapter2_CreativeMenu_Release
             }
 
             camera.Update(gameTime, Mouse.GetState());
+            preState = Mouse.GetState();
+            preKey = Keyboard.GetState();
 
             base.Update(gameTime);
         }
@@ -243,6 +281,8 @@ namespace Chapter2_CreativeMenu_Release
             if (gameState == tile.GameState)
             {
                 tile.Draw(gameTime, spriteBatch);
+                foreach (Soldier sol in sols)
+                    sol.Draw(gameTime, spriteBatch);
             }
             foreach (GameObject gameObject in gameObjects)
             {

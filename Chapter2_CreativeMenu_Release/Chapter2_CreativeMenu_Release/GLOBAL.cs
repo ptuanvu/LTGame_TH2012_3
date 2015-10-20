@@ -15,6 +15,17 @@ namespace Chapter2_CreativeMenu_Release
         public static Vector2 centreCamera;
         public static float scale;
         public static MapCell selected;
+        public static int curSolid = 0;
+
+        public static Rectangle ScreenToWorld(Rectangle sour)
+        {
+            Rectangle result = new Rectangle();
+            result.X = (int)((sour.X - (int)centreCamera.X) / scale);
+            result.Y = (int)((sour.Y - (int)centreCamera.Y) / scale);
+            result.Width = (int)(sour.Width * scale);
+            result.Height = (int)(sour.Height * scale);
+            return result;
+        }
 
         public static bool IsSelected(MouseState e, Rectangle cellPosition)
         {
