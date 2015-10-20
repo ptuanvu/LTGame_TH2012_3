@@ -58,6 +58,7 @@ namespace Chapter2_CreativeMenu_Release
             this.menuItems = new List<MenuItem>();
             this.position = new Vector2(0, 0);
             this.size = new Vector2(800, 600);
+            this.GameState = 0;
         }
 
         public override void Update(GameTime gameTime, MouseState mouse, KeyboardState keyboard)

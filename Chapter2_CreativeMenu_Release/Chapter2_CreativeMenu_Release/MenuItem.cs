@@ -119,6 +119,8 @@ namespace Chapter2_CreativeMenu_Release
 
         public override void Update(GameTime gameTime, MouseState mouse, KeyboardState keyboard)
         {
+            
+
             if (IsMouseMoveIn(mouse))
             {
                 isMoveIn = true;
@@ -146,7 +148,7 @@ namespace Chapter2_CreativeMenu_Release
 
         public bool IsMouseMoveIn(MouseState mouse)
         {
-            Rectangle objectRectange = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+            Rectangle objectRectange = new Rectangle((int)(position.X + GLOBAL.centreCamera.X), (int)(position.Y + GLOBAL.centreCamera.Y), (int)size.X, (int)size.Y);
             Rectangle mouseRectange = new Rectangle(mouse.X, mouse.Y, 1, 1);
 
             if (objectRectange.Intersects(mouseRectange))

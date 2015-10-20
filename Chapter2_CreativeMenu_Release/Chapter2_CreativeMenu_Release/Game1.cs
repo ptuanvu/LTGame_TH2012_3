@@ -23,13 +23,16 @@ namespace Chapter2_CreativeMenu_Release
         private static int GAME_START = 2;
         private int gameState = GAME_MENU;
         SpriteFont font;
+        TileMap tile;
 
         List<GameObject> gameObjects;
+        private Camera camera;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            GLOBAL.Content = Content;
         }
 
         /// <summary>
@@ -41,6 +44,7 @@ namespace Chapter2_CreativeMenu_Release
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            camera = new Camera(GraphicsDevice.Viewport);
             gameObjects = new List<GameObject>();
             IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = 1200;
@@ -57,7 +61,7 @@ namespace Chapter2_CreativeMenu_Release
         protected override void LoadContent()
         {
 
-
+            tile = new TileMap(null,  null);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -190,7 +194,14 @@ namespace Chapter2_CreativeMenu_Release
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            //Window.Title = Mouse.GetState().ScrollWheelValue.ToString();
+            
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape)) gameState = GAME_MENU;
+
+            if (gameState == GAME_START)
+            tile.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
+            if (GLOBAL.selected != null) Window.Title = GLOBAL.selected.TileSet.Name + " - " + GLOBAL.scale.ToString();
 
             foreach (GameObject gameObject in gameObjects)
             {
@@ -211,6 +222,8 @@ namespace Chapter2_CreativeMenu_Release
 
             }
 
+            camera.Update(gameTime, Mouse.GetState());
+
             base.Update(gameTime);
         }
 
@@ -222,15 +235,24 @@ namespace Chapter2_CreativeMenu_Release
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            if (gameState != GAME_MENU)
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+            else
+                spriteBatch.Begin();
 
+            if (gameState == tile.GameState)
+            {
+                tile.Draw(gameTime, spriteBatch);
+            }
             foreach (GameObject gameObject in gameObjects)
             {
+
+                //Window.Title = "X : " + Mouse.GetState().X + " - Y : " + Mouse.GetState().Y;
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                     gameObject.Draw(gameTime, spriteBatch);
                 else if (gameState == GAME_START)
                 {
-                    Window.Title = "Game Starting";
+                    //Window.Title = "Game Starting";
                     if (gameObject.ObjectName() == "Gamming")
                     {
                         gameObject.Draw(gameTime, spriteBatch);
@@ -239,7 +261,7 @@ namespace Chapter2_CreativeMenu_Release
                    
                 else if (gameState == GAME_PAUSE)
                 {
-                    Window.Title = "Game Pausing";
+                    //Window.Title = "Game Pausing";
                     if (gameObject.ObjectName() == "Pausing")
                     {
                         gameObject.Draw(gameTime, spriteBatch);
