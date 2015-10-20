@@ -32,12 +32,27 @@ namespace Chapter2_CreativeMenu_Release
         private uint _cellSize;
         List<TileSet> tileSet;
         List<Layer> layers;
+        Texture2D _chooser;
+
+        public Texture2D Chooser
+        {
+            get
+            {
+                return _chooser;
+            }
+
+            set
+            {
+                _chooser = value;
+            }
+        }
 
         public TileMap(Texture2D mouseMap, Texture2D slopeMap)
         {
             this.mouseMap = mouseMap;
             this.slopeMaps = slopeMaps;
             this.GameState = 2;
+            _chooser = GLOBAL.Content.Load<Texture2D>(@"Maps\\Chooser");
 
             Stream mapcontent = new FileStream("Content/Maps/mapcontent.tmx", FileMode.Open, FileAccess.Read);
             XElement document;
@@ -162,8 +177,8 @@ namespace Chapter2_CreativeMenu_Release
             int width = (int)(c.CurRectange.Width * GLOBAL.scale);
             int height = (int)(c.CurRectange.Height * GLOBAL.scale);
 
-            result.X = width * c.Position.X;
-            result.Y = height * c.Position.Y;
+            result.X = width * c.Position.X + (int)GLOBAL.centreCamera.X;
+            result.Y = height * c.Position.Y + (int)GLOBAL.centreCamera.Y;
             result.Width = width;
             result.Height = height;
             
@@ -189,6 +204,9 @@ namespace Chapter2_CreativeMenu_Release
                     cell.Draw(gameTime, spriteBatch);
                 }
             }
+
+            if (GLOBAL.selected != null)
+                spriteBatch.Draw(this._chooser, GLOBAL.selected.CurRectange, Color.White);
         }
 
         public override string ObjectName()
