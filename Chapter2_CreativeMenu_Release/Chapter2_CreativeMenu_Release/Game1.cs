@@ -74,7 +74,7 @@ namespace Chapter2_CreativeMenu_Release
             startGame.SetPosition(new Vector2(230, 100));
             startGame.Click += new MenuItem.ClickHandler(StartGame_Click);
 
-            MenuItem pauseGame = (MenuItem)CreateObject("MenuItem", "Pause");
+            MenuItem pauseGame = (MenuItem)CreateObject("MenuItem", "Help");
             pauseGame.SetPosition(new Vector2(230, 200));
             pauseGame.Click += new MenuItem.ClickHandler(PauseGame_Click);
 
@@ -90,11 +90,12 @@ namespace Chapter2_CreativeMenu_Release
 
             font = Content.Load<SpriteFont>("font");
 
-            DisplayMessage messageGameStart = new DisplayMessage("GAMMING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Gamming");
-            gameObjects.Add(messageGameStart);
+            //DisplayMessage messageGameStart = new DisplayMessage("GAMMING...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Gamming");
+            //gameObjects.Add(messageGameStart);
 
-            DisplayMessage messageGameStart2 = new DisplayMessage("PAUSED...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Pausing");
-            gameObjects.Add(messageGameStart2);
+            //DisplayMessage messageGameStart2 = new DisplayMessage("PAUSED...PRESS ESC TO SHOW MENU...", TimeSpan.FromSeconds(1.0), new Vector2(100, 300), Color.White, font, "Pausing");
+            //gameObjects.Add(messageGameStart2);
+
         }
 
         private void ExitGame_Click(object sender, MyMenuItemEventArgs e)
@@ -104,13 +105,13 @@ namespace Chapter2_CreativeMenu_Release
 
         private void PauseGame_Click(object sender, MyMenuItemEventArgs e)
         {
-            Window.Title = "The Game Is Paused";
+            //Window.Title = "The Game Is Paused";
             gameState = GAME_PAUSE;
         }
 
         private void StartGame_Click(object sender, MyMenuItemEventArgs e)
         {
-            Window.Title = "StartGame Is Pressed";
+            //Window.Title = "StartGame Is Pressed";
             gameState = GAME_START;
         }
 
@@ -143,9 +144,9 @@ namespace Chapter2_CreativeMenu_Release
                     buttonNormal = Content.Load<Texture2D>(@"Models\\Menus\\StartButton");
                     buttonClicked = Content.Load<Texture2D>(@"Models\\Menus\\StartButtonClicked");
                     break;
-                case "Pause":
-                    buttonNormal = Content.Load<Texture2D>(@"Models\\Menus\\PauseButton");
-                    buttonClicked = Content.Load<Texture2D>(@"Models\\Menus\\PauseButtonClicked");
+                case "Help":
+                    buttonNormal = Content.Load<Texture2D>(@"Models\\Menus\\HelpButton");
+                    buttonClicked = Content.Load<Texture2D>(@"Models\\Menus\\HelpButtonClicked");
                     break;
                 case "Exit":
                     buttonNormal = Content.Load<Texture2D>(@"Models\\Menus\\ExitButton");
@@ -205,38 +206,42 @@ namespace Chapter2_CreativeMenu_Release
            
 
             if (gameState == GAME_START)
+            {
                 tile.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
-            if (GLOBAL.selected != null) { //Window.Title = GLOBAL.selected.TileSet.Name + " - " + GLOBAL.scale.ToString();
-                if (Mouse.GetState().RightButton == ButtonState.Pressed && preState.RightButton == ButtonState.Released)
-                {
-                    if (sols.Count < 10)
+                if (GLOBAL.selected != null)
+                { 
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed && preState.RightButton == ButtonState.Released)
                     {
-                        Soldier sol1 = new Soldier(GLOBAL.selected);
-                        sols.Add(sol1);
+                        if (sols.Count < 10)
+                        {
+                            Soldier sol1 = new Soldier(GLOBAL.selected);
+                            sols.Add(sol1);
+                        }
+                        else Window.Title = "SO LINH VUOT QUA GIOI HAN";
                     }
-                    else Window.Title = "SO LINH VUOT QUA GIOI HAN";
-                    
                 }
-            }
 
-            foreach(Soldier sol in sols)
-                sol.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Delete) && preKey.IsKeyUp(Keys.Delete))
-            {
-                int solt = 9999;
                 foreach (Soldier sol in sols)
-                    if (sol.Selected)
-                        solt = sols.IndexOf(sol);
+                    sol.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
 
-                if (solt < 10)
-                    sols.RemoveAt(solt);
+                if (Keyboard.GetState().IsKeyDown(Keys.Delete) && preKey.IsKeyUp(Keys.Delete))
+                {
+                    int solt = 9999;
+                    foreach (Soldier sol in sols)
+                        if (sol.Selected)
+                            solt = sols.IndexOf(sol);
+
+                    if (solt < 10)
+                        sols.RemoveAt(solt);
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Left) && preKey.IsKeyUp(Keys.Left))
+                {
+                    sols.First().ChangeSprite();
+                }
+
+                camera.Update(gameTime, Mouse.GetState(), Keyboard.GetState());
             }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && preKey.IsKeyUp(Keys.Left))
-            {
-                sols.First().ChangeSprite();
-            } 
 
 
             foreach (GameObject gameObject in gameObjects)
@@ -258,7 +263,7 @@ namespace Chapter2_CreativeMenu_Release
 
             }
 
-            camera.Update(gameTime, Mouse.GetState());
+            
             preState = Mouse.GetState();
             preKey = Keyboard.GetState();
 
@@ -286,13 +291,12 @@ namespace Chapter2_CreativeMenu_Release
             }
             foreach (GameObject gameObject in gameObjects)
             {
-
-                //Window.Title = "X : " + Mouse.GetState().X + " - Y : " + Mouse.GetState().Y;
+                
                 if (gameState == GAME_MENU && gameObject.ObjectName() == "Menu")
                     gameObject.Draw(gameTime, spriteBatch);
                 else if (gameState == GAME_START)
                 {
-                    //Window.Title = "Game Starting";
+
                     if (gameObject.ObjectName() == "Gamming")
                     {
                         gameObject.Draw(gameTime, spriteBatch);
@@ -301,11 +305,13 @@ namespace Chapter2_CreativeMenu_Release
                    
                 else if (gameState == GAME_PAUSE)
                 {
-                    //Window.Title = "Game Pausing";
-                    if (gameObject.ObjectName() == "Pausing")
-                    {
-                        gameObject.Draw(gameTime, spriteBatch);
-                    }
+                    spriteBatch.DrawString(font, "Click chuot phai de tao nhan vat", new Vector2(100, 50), Color.White);
+                    spriteBatch.DrawString(font, "Nhan giu chuot trai de di chuyen ban do", new Vector2(100, 100), Color.White);
+                    spriteBatch.DrawString(font, "Cuon chuot hoac nhan phim mui ten len xuong de zoom in or out", new Vector2(100, 150), Color.White);
+                    spriteBatch.DrawString(font, "Nhan mui ten phai trai <- hoac -> de chuyen nhan vat", new Vector2(100, 200), Color.White);
+                    spriteBatch.DrawString(font, "Click chuot trai vao nhan vat de chon", new Vector2(100, 250), Color.White);
+                    spriteBatch.DrawString(font, "Click chuot trai len ban do de bo chon", new Vector2(100, 300), Color.White);
+                    spriteBatch.DrawString(font, "Nhan phim ESC de tro ve menu", new Vector2(100, 350), Color.White);
                 }
             }
 

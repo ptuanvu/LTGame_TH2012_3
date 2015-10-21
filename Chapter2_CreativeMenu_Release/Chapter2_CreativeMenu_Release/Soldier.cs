@@ -17,6 +17,7 @@ namespace Chapter2_CreativeMenu_Release
     }
     public class Soldier : GameObject
     {
+        public static Texture2D Star;
         public static List<Texture2D> Characters;
         public static List<Rectangle> up, down, left, right;
         public static int width;
@@ -113,29 +114,30 @@ namespace Chapter2_CreativeMenu_Release
         {
             curDirection = rand.Next(0, 4);
             position = pos;
-            curPos = new Point(position.CurRectange.X, position.CurRectange.Y + position.CurRectange.Height - desRec.Height);
+            
             if (Characters == null)
             {
                 Characters = new List<Texture2D>();
-
+                Star = GLOBAL.Content.Load<Texture2D>(@"Characters\\star-icon");
                 Texture2D Character2 = GLOBAL.Content.Load<Texture2D>(@"Characters\\DoomCharSergeant");
                 Characters.Add(Character2);
 
                 Texture2D Character1 = GLOBAL.Content.Load<Texture2D>(@"Characters\\DoomCharPrivate");
                 Characters.Add(Character1);
             }
-                
+
 
             width = Characters[GLOBAL.curSolid].Width / 4;
             height = Characters[GLOBAL.curSolid].Height / 4;
             float scaletemp = (float)width / 32;
-            desRec = new Rectangle(0, 0, 32, (int)(height/scaletemp) + 1);
+            desRec = new Rectangle(0, 0, 32, (int)(height / scaletemp) + 1);
+            curPos = new Point(position.CurRectange.X, position.CurRectange.Y + position.CurRectange.Height - desRec.Height);
             if (down == null)
             {
                 Rectangle step1 = new Rectangle(0, 0, width, height);
                 Rectangle step2 = new Rectangle(width, 0, width, height);
-                Rectangle step3 = new Rectangle(width*2, 0, width, height);
-                Rectangle step4 = new Rectangle(width*3, 0, width, height);
+                Rectangle step3 = new Rectangle(width * 2, 0, width, height);
+                Rectangle step4 = new Rectangle(width * 3, 0, width, height);
                 down = new List<Rectangle>();
                 down.Add(step1);
                 down.Add(step2);
@@ -156,10 +158,10 @@ namespace Chapter2_CreativeMenu_Release
             }
             if (right == null)
             {
-                Rectangle step1 = new Rectangle(0, 2*height, width, height);
-                Rectangle step2 = new Rectangle(width, 2*height, width, height);
-                Rectangle step3 = new Rectangle(width * 2, 2*height, width, height);
-                Rectangle step4 = new Rectangle(width * 3, 2*height, width, height);
+                Rectangle step1 = new Rectangle(0, 2 * height, width, height);
+                Rectangle step2 = new Rectangle(width, 2 * height, width, height);
+                Rectangle step3 = new Rectangle(width * 2, 2 * height, width, height);
+                Rectangle step4 = new Rectangle(width * 3, 2 * height, width, height);
                 right = new List<Rectangle>();
                 right.Add(step1);
                 right.Add(step2);
@@ -168,7 +170,7 @@ namespace Chapter2_CreativeMenu_Release
             }
             if (up == null)
             {
-                Rectangle step1 = new Rectangle(0, 3*height, width, height);
+                Rectangle step1 = new Rectangle(0, 3 * height, width, height);
                 Rectangle step2 = new Rectangle(width, 3 * height, width, height);
                 Rectangle step3 = new Rectangle(width * 2, 3 * height, width, height);
                 Rectangle step4 = new Rectangle(width * 3, 3 * height, width, height);
@@ -195,7 +197,7 @@ namespace Chapter2_CreativeMenu_Release
                     preMouse = mouse;
                     return true;
                 }
-                else
+                else if (preMouse.X == mouse.X && preMouse.Y == mouse.Y)
                 {
                     this.selected = false;
                 }
@@ -206,8 +208,6 @@ namespace Chapter2_CreativeMenu_Release
 
         public override void Update(GameTime gameTime, MouseState mouse, KeyboardState keyboard)
         {
-            //desRectangle = new Rectangle(position.CurRectange.X, position.CurRectange.Y + position.CurRectange.Height - 45, 32, 45);
-
             milisecond += gameTime.ElapsedGameTime.Milliseconds;
             if (milisecond > 99)
             {
@@ -217,7 +217,7 @@ namespace Chapter2_CreativeMenu_Release
                 milisecond = 0;
             }
 
-            
+
             if (gameTime.TotalGameTime.Seconds % 5 == 0)
             {
                 if (second != gameTime.TotalGameTime.Seconds)
@@ -225,7 +225,7 @@ namespace Chapter2_CreativeMenu_Release
                 second = gameTime.TotalGameTime.Seconds;
             }
 
-           // if (curDirection == Direction.UP) desRectangle = new Rectangle(curPos.X, curPos.Y--, 32, 45);
+            // if (curDirection == Direction.UP) desRectangle = new Rectangle(curPos.X, curPos.Y--, 32, 45);
             if (curDirection == Direction.LEFT && curPos.X > 0) desRectangle = new Rectangle(curPos.X--, curPos.Y, 32, desRec.Height);
             else if (curDirection == Direction.RIGHT && curPos.X < 608) desRectangle = new Rectangle(curPos.X++, curPos.Y, 32, desRec.Height);
             else if (curDirection == Direction.UP && curPos.Y > 0) desRectangle = new Rectangle(curPos.X, curPos.Y--, 32, desRec.Height);
@@ -237,7 +237,11 @@ namespace Chapter2_CreativeMenu_Release
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Rectangle desRectangle = new Rectangle(position.CurRectange.X, position.CurRectange.Y + position.CurRectange.Height - 45, 32, 45);
-
+            if (this.Selected)
+            {
+                int x = (desRectangle.X + desRectangle.Width / 2 - 5);
+                spriteBatch.Draw(Star, new Rectangle(x, desRectangle.Y - 13, 10, 10), Color.White);
+            }
             if (curDirection == Direction.LEFT) spriteBatch.Draw(Characters[GLOBAL.curSolid], desRectangle, left[curSprite], Color.White);
             else if (curDirection == Direction.RIGHT) spriteBatch.Draw(Characters[GLOBAL.curSolid], desRectangle, right[curSprite], Color.White);
             else if (curDirection == Direction.UP) spriteBatch.Draw(Characters[GLOBAL.curSolid], desRectangle, up[curSprite], Color.White);

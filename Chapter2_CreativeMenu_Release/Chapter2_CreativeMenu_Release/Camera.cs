@@ -21,28 +21,29 @@ namespace Chapter2_CreativeMenu_Release
         {
             view = newView;
             location = new Point(0, 0);
+            centre = new Vector2(location.X, location.Y);
+            scale = 1f;
+
             transform = Matrix.CreateScale(new Vector3(scale, scale, 0)) *
-                    Matrix.CreateTranslation(new Vector3(0, 0, 0));
+                    Matrix.CreateTranslation(new Vector3(centre.X, centre.Y, 0));
         }
 
-        public void Update(GameTime gameTime, MouseState mouse)
+        public void Update(GameTime gameTime, MouseState mouse, KeyboardState key)
         {
-            if (mouse.ScrollWheelValue >= -10000 && mouse.ScrollWheelValue <= 10000)
-            {
-                if (mouse.ScrollWheelValue > preState.ScrollWheelValue)
-                {
-                    if (scale < 5f)
-                        scale += 0.1f;
-                    preState = mouse;
-                }
-                else if (mouse.ScrollWheelValue < preState.ScrollWheelValue)
-                {
-                    if (scale > 0.1f)
-                        scale -= 0.1f;
-                    preState = mouse;
-                }
 
+            if (mouse.ScrollWheelValue > preState.ScrollWheelValue || key.IsKeyDown(Keys.Up))
+            {
+                if (scale < 5f)
+                    scale += 0.1f;
+                preState = mouse;
             }
+            else if (mouse.ScrollWheelValue < preState.ScrollWheelValue || key.IsKeyDown(Keys.Down))
+            {
+                if (scale > 0.1f)
+                    scale -= 0.1f;
+                preState = mouse;
+            }
+
 
             if (preState.LeftButton == ButtonState.Released && mouse.LeftButton == ButtonState.Pressed)
             {
@@ -64,7 +65,7 @@ namespace Chapter2_CreativeMenu_Release
             if (preState.LeftButton == ButtonState.Pressed && mouse.LeftButton == ButtonState.Released)
             {
                 //preState = mouse;
-                preState = new MouseState((int)(mouse.X + centre.X), (int)(mouse.Y + centre.Y) , mouse.ScrollWheelValue, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released);
+                preState = new MouseState((int)(mouse.X + centre.X), (int)(mouse.Y + centre.Y), mouse.ScrollWheelValue, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released);
             }
 
             centre = new Vector2(location.X, location.Y);
