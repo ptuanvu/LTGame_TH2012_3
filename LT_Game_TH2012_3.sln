@@ -13,7 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chapter2_CreativeMenu_Relea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoingBeyond", "GoingBeyond\GoingBeyond\GoingBeyond.csproj", "{649B70EC-D07D-4C3D-A52B-19F2E30375D1}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GoingBeyondContent", "GoingBeyond\GoingBeyondContent\GoingBeyondContent.contentproj", "{AC83DAFA-1235-430C-BAB1-E3A11412E61C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoingBeyondContent", "GoingBeyond\GoingBeyondContent\GoingBeyondContent.contentproj", "{AC83DAFA-1235-430C-BAB1-E3A11412E61C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoingBeyond4", "GoingBeyond4\GoingBeyond4\GoingBeyond4.csproj", "{94E4F9CD-70EB-4F12-A3A3-99A726318657}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GoingBeyond4Content", "GoingBeyond4\GoingBeyond4Content\GoingBeyond4Content.contentproj", "{B8829CD4-ED29-450F-9995-180BE3A98848}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,12 @@ Global
 		{649B70EC-D07D-4C3D-A52B-19F2E30375D1}.Release|x86.Build.0 = Release|x86
 		{AC83DAFA-1235-430C-BAB1-E3A11412E61C}.Debug|x86.ActiveCfg = Debug|x86
 		{AC83DAFA-1235-430C-BAB1-E3A11412E61C}.Release|x86.ActiveCfg = Release|x86
+		{94E4F9CD-70EB-4F12-A3A3-99A726318657}.Debug|x86.ActiveCfg = Debug|x86
+		{94E4F9CD-70EB-4F12-A3A3-99A726318657}.Debug|x86.Build.0 = Debug|x86
+		{94E4F9CD-70EB-4F12-A3A3-99A726318657}.Release|x86.ActiveCfg = Release|x86
+		{94E4F9CD-70EB-4F12-A3A3-99A726318657}.Release|x86.Build.0 = Release|x86
+		{B8829CD4-ED29-450F-9995-180BE3A98848}.Debug|x86.ActiveCfg = Debug|x86
+		{B8829CD4-ED29-450F-9995-180BE3A98848}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

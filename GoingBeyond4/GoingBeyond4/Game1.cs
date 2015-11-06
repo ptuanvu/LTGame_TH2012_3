@@ -18,6 +18,7 @@ namespace GoingBeyond4
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Ship ship;
 
         public Game1()
         {
@@ -34,6 +35,7 @@ namespace GoingBeyond4
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ship = new Ship();
 
             base.Initialize();
         }
@@ -70,6 +72,10 @@ namespace GoingBeyond4
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            UpdateInput();
+
+            ship.Position += ship.Velocity;
+            ship.Velocity *= 0.95f;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -83,9 +89,26 @@ namespace GoingBeyond4
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            Matrix shipTransformMatrix = ship.RotationMatrix
+                * Matrix.CreateTranslation(ship.Position);
+
+            DrawModel(ship.Model, shipTransformMatrix, ship.transform);
 
             base.Draw(gameTime);
+        }
+
+        private void DrawModel(Model model, Matrix modelTransform, 
+            Matrix[] absoluteBoneTransform)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = absoluteBoneTransform[mesh.ParentBone.Index] *
+                        modelTransform;
+                }
+                mesh.Draw();
+            }
         }
     }
 }
