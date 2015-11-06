@@ -72,7 +72,7 @@ namespace GoingBeyond4
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            UpdateInput();
+
 
             ship.Position += ship.Velocity;
             ship.Velocity *= 0.95f;

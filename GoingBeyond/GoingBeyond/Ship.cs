@@ -11,70 +11,64 @@ namespace GoingBeyond
     class Ship
     {
         public Model Model;
-        public Matrix[] transform;
+        public Matrix[] Transforms;
 
-        //Model position
+        //Position of the model in world space
         public Vector3 Position = Vector3.Zero;
 
+        //Velocity of the model, applied each frame to the model's position
         public Vector3 Velocity = Vector3.Zero;
-
-        public Matrix RotationMatrix = Matrix.Identity;
-        private float rotation = 0.0f;
-
-        //amplifies controller speed input
-        private const float VelocityScale = 5.0f;
-
+        private const float VelocityScale = 5.0f; //amplifies controller speed input
+        public Matrix RotationMatrix = Matrix.CreateRotationX(MathHelper.PiOver2);
+        private float rotation;
         public float Rotation
         {
-            get
-            {
-                return rotation;
-            }
-
+            get { return rotation; }
             set
             {
-                float newVal = value;
-                while (newVal >= MathHelper.TwoPi)
+                while (value >= MathHelper.TwoPi)
                 {
-                    newVal -= MathHelper.TwoPi;
+                    value -= MathHelper.TwoPi;
                 }
-                while (newVal < 0)
+                while (value < 0)
                 {
-                    newVal += MathHelper.TwoPi;
+                    value += MathHelper.TwoPi;
                 }
-
-                if (rotation != newVal)
+                if (rotation != value)
                 {
-                    rotation = newVal;
-                    RotationMatrix =
-       Matrix.CreateRotationY(rotation);
+                    rotation = value;
+                    RotationMatrix = Matrix.CreateRotationX(MathHelper.PiOver2) *
+                        Matrix.CreateRotationZ(rotation);
                 }
             }
         }
 
-        public void Update(KeyboardState currentKeyState)
+        public void Update(GamePadState controllerState)
         {
-            Vector3 modelVelocityAdd = Vector3.Zero;
+            // Rotate the model using the left thumbstick, and scale it down.
+            Rotation -= controllerState.ThumbSticks.Left.X * 0.10f;
+            
+            // Finally, add this vector to our velocity.
+            Velocity += RotationMatrix.Forward * VelocityScale * controllerState.Triggers.Right;
 
-            if (currentKeyState.IsKeyDown(Keys.A))
-                Rotation += 0.10f;
-            else if (currentKeyState.IsKeyDown(Keys.D))
-                Rotation -= 0.10f;
-            //Velocity += RotationMatrix.Forward * 1.0f;
-
-
-            modelVelocityAdd.X = -(float)Math.Sin(Rotation);
-            modelVelocityAdd.Z = -(float)Math.Cos(Rotation);
-
-            if (currentKeyState.IsKeyDown(Keys.W))
-            {
-
-                modelVelocityAdd *= 5;
-            }
-            //Velocity += RotationMatrix. * 1.0f;
-            Velocity += modelVelocityAdd;
-
+            //Windows
+            
         }
 
+        public void Update(KeyboardState keyboard)
+        {
+            if (keyboard.IsKeyDown(Keys.A))
+            {
+                Rotation += 0.10f;
+            } else if (keyboard.IsKeyDown(Keys.D))
+            {
+                Rotation -= 0.10f;
+            }
+            
+            if (keyboard.IsKeyDown(Keys.W))
+            {
+                Velocity += RotationMatrix.Forward * VelocityScale;
+            }
+        }
     }
 }
